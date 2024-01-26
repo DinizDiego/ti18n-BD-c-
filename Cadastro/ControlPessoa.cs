@@ -9,6 +9,7 @@ namespace Cadastro
     class ControlPessoa
     {
         private int opcao = 0;
+        public int codigo;
         DAO conectar;
         public ControlPessoa() 
         {
@@ -27,9 +28,10 @@ namespace Cadastro
             Console.WriteLine("Escolha uma das opções abaixo: \n" +
                               "1. Cadastrar\n" +
                               "2. Consultar\n" +
-                              "3. Atualizar\n" +
-                              "4. Excluir\n" +
-                              "5. Sair");
+                              "3. Consultar indivídual\n" +
+                              "4. Atualizar\n" +
+                              "5. Excluir\n" +
+                              "6. Sair");
             ConsultarOpcao = Convert.ToInt32(Console.ReadLine());
         }//Fim do Menu
 
@@ -44,15 +46,18 @@ namespace Cadastro
                         Cadastrar();
                         break;
                     case 2:
-                        //Consultar
+                        ConsultarTudo();
                         break;
                     case 3:
-                        //Atualizar
+                        ConsultarIndividual();
                         break;
                     case 4:
-                        //Excluir
+                        MenuAtualizar();
                         break;
                     case 5:
+                        Deletar();
+                        break;
+                    case 6:
                         //Agradecer
                         Console.WriteLine("Obrigado!");
                         break;
@@ -60,7 +65,7 @@ namespace Cadastro
                         Console.WriteLine("Informe um código de acordo com o menu");
                         break;
                 }//Fim do escolha caso
-            } while (ConsultarOpcao != 5);
+            } while (ConsultarOpcao != 6);
         }//fim do método
 
         public void Cadastrar()
@@ -77,6 +82,81 @@ namespace Cadastro
             conectar.inserir(nome, telefone, cidade, endereco);
 
         }//Fim do método cadastrar
+
+        public void ConsultarTudo()
+        {
+            Console.WriteLine(conectar.ConsultarTudo());
+        }//Fim do consultar tudo
+
+        public void ConsultarIndividual()
+        {
+            Console.WriteLine("Informe oi código que deseja consultar: ");
+            int codigo = Convert.ToInt32(Console.ReadLine());
+
+            //Mostrar na tela
+            Console.WriteLine(conectar.ConsultarTudo(codigo));
+        }//fim do consultar
+
+        public void MostrarMenuAtualizar()
+        {
+            Console.WriteLine("Escolha uma das opções abaixo: " +
+                              "\n1. Nome "    +
+                              "\n2. Telefone" +
+                              "\n3. Cidade"   +
+                              "\n4. Endereço ");
+            opcao = Convert.ToInt32(Console.ReadLine());
+        }//Fim do método
+
+        public void MenuAtualizar()
+        {
+            MostrarMenuAtualizar();
+            switch (opcao)
+            {
+                case 1:
+                    Console.WriteLine("Informe o código do dado que deseja atualizar: ");
+                    codigo = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Informe o novo nome: ");
+                    string nome = Console.ReadLine();
+                    //Método que deseja atualizar
+                    conectar.Atualizar(codigo, "nome", nome);
+                    break;
+                case 2:
+                    Console.WriteLine("Informe o códigpo do dado que deseja atualizar: ");
+                    codigo = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Informe o novo telefone: ");
+                    string telefone = Console.ReadLine();
+                    //Método que deseja atualizar
+                    Console.WriteLine("\n\n" + conectar.Atualizar(codigo, "telefone", telefone));
+                    break;
+                case 3:
+                    Console.WriteLine("Informe o códigpo do dado que deseja atualizar: ");
+                    codigo = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Informe a nova cidade: ");
+                    string cidade = Console.ReadLine();
+                    //Método que deseja atualizar
+                    conectar.Atualizar(codigo, "cidade", cidade);
+                    break;
+                case 4:
+                    Console.WriteLine("Informe o códigpo do dado que deseja atualizar: ");
+                    codigo = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Informe o novo endereço: ");
+                    string endereco = Console.ReadLine();
+                    //Método que deseja atualizar
+                    conectar.Atualizar(codigo, "endereço", endereco);
+                    break;
+                default:
+                    Console.WriteLine("Opção não é válida!");
+                    break;
+            }//Fim do escolha
+        }//Fim do método
+
+        public void Deletar()
+        {
+            Console.WriteLine("Informe um código: ");
+            codigo = Convert.ToInt32(Console.ReadLine());
+            //Utilizar método excluir
+            Console.WriteLine("\n\n" + conectar.Excluir(codigo));
+        }//Fim do método
 
     }//Fim da classe
 }//Fim do Projeto
